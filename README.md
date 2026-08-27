@@ -59,12 +59,6 @@ Restart the harness; the Prompt tab appears in Granular Settings.
 - Store: `~/.dsh/settings/prompt-manager.json`, write-through memory with
   serialized writes.
 
-## Limitations
-
-- System prompt selection is global; per-workspace selection is future work.
-- Replacements key by section name across scopes, so a preset reusing a
-  replaced name is replaced too.
-
 ## Debugging
 
 The census behind the tab:
