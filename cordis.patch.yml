@@ -1,0 +1,5 @@
+# dsh-granular-prompt: prompt census + suppress/replace + user system prompts
+# + personas; contributes the Prompt tab to Granular Settings.
+- insert:
+    - id: granular-prompt
+      name: dsh-granular-prompt
