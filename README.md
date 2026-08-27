@@ -13,6 +13,8 @@ chat input.
 
 ## What you get
 
+<img width="908" height="309" alt="image" src="https://github.com/user-attachments/assets/ce3918d7-9076-4e34-bd8f-063b89c94630" />
+
 - **Live list**: every section that will render in the next assembly, with
   a suppress checkbox, view, replace, and revert. Suppression and
   replacement are mutually exclusive per section.
