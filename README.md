@@ -33,11 +33,13 @@ dependencies and this plugin into a plugins folder:
 
 ```sh
 mkdir -p ~/dsh-plugins && cd ~/dsh-plugins
+git clone https://github.com/joao-paulo-santos/dsh-scratchpad.git
 git clone https://github.com/joao-paulo-santos/dsh-event-relay.git
 git clone https://github.com/joao-paulo-santos/dsh-granular-settings.git
 git clone https://github.com/joao-paulo-santos/dsh-granular-prompt.git
 
 # from the harness checkout
+pnpm dsh plugin --profile web add ~/dsh-plugins/dsh-scratchpad
 pnpm dsh plugin --profile web add ~/dsh-plugins/dsh-event-relay
 pnpm dsh plugin --profile web add ~/dsh-plugins/dsh-granular-settings
 pnpm dsh plugin --profile web add ~/dsh-plugins/dsh-granular-prompt
@@ -73,6 +75,7 @@ curl 'http://127.0.0.1:3080/granular-prompt/census?session=<sid>'
 ## Dependencies
 
 - [dsh-granular-settings](https://github.com/joao-paulo-santos/dsh-granular-settings) hosts the Prompt tab and owns the persona settings this plugin registers and reads
+- [dsh-scratchpad](https://github.com/joao-paulo-santos/dsh-scratchpad) is the pad this plugin opens for full-text viewing, section replacement, and diff review (required; the UI does not activate without it)
 - [dsh-event-relay](https://github.com/joao-paulo-santos/dsh-event-relay) carries change doorbells (optional; focus refetch covers its absence)
 
 ## Plugins dependent on this
