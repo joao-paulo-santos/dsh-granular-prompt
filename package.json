@@ -25,6 +25,7 @@
     }
   },
   "dependencies": {
-    "@deepseek-ai/dsh-client-ui-primitives": "*"
+    "@deepseek-ai/dsh-client-ui-primitives": "*",
+    "dsh-granular-settings": "link:../dsh-granular-settings"
   }
 }
