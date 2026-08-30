@@ -1,5 +1,6 @@
 const padSrc = require('fs').readFileSync('/mnt/prometheus/Dev/Repos/Dsh-Plugins/dsh-scratchpad/lib/client.js','utf8')
 const adSrc = require('fs').readFileSync('/mnt/prometheus/Dev/Repos/Dsh-Plugins/dsh-approval-diff/lib/client.js','utf8')
+const dvSrc = require('fs').readFileSync('/mnt/prometheus/Dev/Repos/Dsh-Plugins/dsh-diff-view/lib/client.js','utf8')
 const gsSrc = require('fs').readFileSync('/mnt/prometheus/Dev/Repos/Dsh-Plugins/dsh-granular-settings/lib/client.js','utf8')
 const gpSrc = require('fs').readFileSync(__dirname + '/../lib/client.js','utf8')
 const captures = {}
@@ -12,16 +13,17 @@ global.fetch = (url, opts) => {
   if (opts && opts.method === 'POST') { posts.push({ url: String(url), body: JSON.parse(opts.body) }); return Promise.resolve({ ok: true, json: async () => ({ ok: true }) }) }
   return Promise.resolve({ ok: true, json: async () => ({ registrations: [], globalValues: {}, workspaceValues: {}, sessionValues: {} }) })
 }
-eval(adSrc); eval(padSrc); eval(gsSrc); eval(gpSrc)
+eval(dvSrc); eval(adSrc); eval(padSrc); eval(gsSrc); eval(gpSrc)
 let hookIdx = 0; const hookSlots = {}
 const fresh = () => { for (const k of Object.keys(hookSlots)) delete hookSlots[k] }
 const R = { useState: (v) => { const i = hookIdx++; if (!(i in hookSlots)) hookSlots[i] = v; return [hookSlots[i], (fn) => { hookSlots[i] = typeof fn === 'function' ? fn(hookSlots[i]) : fn }] }, useEffect: (fn) => { fn(); return () => {} }, useRef: (v) => ({ current: v }), createElement: (t, p, ...k) => ({ type: t, props: p || {}, kids: k.flat(Infinity) }) }
 const mkCtx = (l, p) => { const d = new Set(l); const ctx = { get: (n) => p[n], provide: (n, a) => { p[n] = a }, on: () => () => {} }
-  for (const n of ['slots','granularSettings','granularSettingsClient','scratchpad','approvalDiffView','eventRelay']) Object.defineProperty(ctx, n, { get() { if (!d.has(n)) throw new Error('no ' + n); return p[n] } }); return ctx }
+  for (const n of ['slots','granularSettings','granularSettingsClient','scratchpad','approvalDiffView','diffView','eventRelay']) Object.defineProperty(ctx, n, { get() { if (!d.has(n)) throw new Error('no ' + n); return p[n] } }); return ctx }
 let SectionComp, PadOverlay
 const slotsApi = { inject: (k, fn) => { fn(); return () => {} }, register: (o, C) => { if (o.id === 'granular') SectionComp = C; if (o.id === 'scratchpad') PadOverlay = C; return C } }
 const provided = { slots: slotsApi, eventRelay: { subscribe: () => () => {} } }
-captures['dsh-approval-diff'].factory((id) => R).apply({ get: () => undefined, provide: (n, a) => { provided[n] = a }, on: () => () => {}, slots: { inject: () => () => {}, register: () => () => {} } })
+captures['dsh-diff-view'].factory((id) => R).apply({ get: () => undefined, provide: (n, a) => { provided[n] = a }, on: () => () => {} })
+captures['dsh-approval-diff'].factory((id) => R).apply(mkCtx(['slots', 'diffView'], provided))
 captures['dsh-scratchpad'].factory((id) => R).apply(mkCtx(['slots'], provided))
 captures['dsh-granular-settings'].factory((id) => R).apply(mkCtx(['eventRelay', 'slots'], provided))
 captures['dsh-granular-prompt'].factory((id) => R).apply(mkCtx(['granularSettings', 'scratchpad', 'slots'], provided))
