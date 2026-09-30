@@ -1,6 +1,6 @@
 {
   "name": "dsh-granular-prompt",
-  "version": "1.4.5",
+  "version": "1.4.6",
   "description": "Prompt manager: live census of every system-prompt section with suppress and replace, custom system prompts (additive or complete mode), and a persona library with default plus per-session selection. Adds a Prompt tab to Granular Settings and a persona picker in the chat composer.",
   "type": "module",
   "license": "MIT",
